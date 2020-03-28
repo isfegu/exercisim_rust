@@ -1,41 +1,35 @@
 pub fn nth(n: u32) -> u32 {
-    let mut evaluation_counter: u32 = 2;
-    let mut prime_counter: u32 = 0;
-
-    let nth_prime = loop {
-        if is_prime(evaluation_counter) {
-            prime_counter += 1;
-        }
-
-        if (prime_counter - 1) == n {
-            break evaluation_counter;
-        }
-
-        evaluation_counter += 1;
+    let prime = match n {
+        0 => 2,
+        1 => 3,
+        _ => prime(n)
     };
 
-    nth_prime
+    prime
 }
 
-fn is_prime(n: u32) -> bool {
-    if n < 2 {
-        return false;
+fn prime(nth_prime: u32) -> u32 {
+    let mut prime: u32 = 3;
+    let mut prime_counter: u32 = 0;
+    let mut i: u32 = 2;
+    let mut n: u32;
+
+    while prime_counter < nth_prime {
+        i += 1;
+        n = 2;
+        while n < i {
+            if i % n == 0 {
+                break;
+            }
+
+            n += 1;
+            
+            if n == i {
+                prime = i;
+                prime_counter += 1;
+            }
+        }
     }
 
-    if n == 2 {
-        return true;
-    }
-
-    return prime_evaluation(n, 2)
-}
-
-fn prime_evaluation(n: u32, counter: u32) -> bool {
-    if counter != n {
-        if n % counter != 0 {
-            return prime_evaluation(n, counter + 1);
-        } 
-        return false;
-    }
-
-    true
+    prime
 }
